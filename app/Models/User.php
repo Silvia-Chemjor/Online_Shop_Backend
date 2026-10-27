@@ -50,4 +50,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function role(){
+        return $this->belongsTo(Role::class);
+    }
+
+    public function abilities(){
+        return [
+            'admin'=>$this->role?->name === 'ADMINISTRATOR',
+            'customer'=>$this->role?->name === 'CUSTOMER'
+        ];
+    }
 }

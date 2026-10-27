@@ -64,7 +64,7 @@ class AuthController extends Controller
 
         if(!$user->is_active){
             return response()->json([
-                'message' => 'Your account is not activated, please verify yourr email'
+                'message' => 'Your account is not activated, please verify your email'
             ]);
         }
 
@@ -73,6 +73,9 @@ class AuthController extends Controller
         return response()->json([
             'message'=>'Login successful!',
             'user'=>$user,
+            'role' => $user->role,
+            'abilities'=>[], 
+            // '$user->abilities(),
             'token'=>$token
         ], 201);}catch(\Exception $e){
             return response()->json([

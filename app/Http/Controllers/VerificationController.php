@@ -8,18 +8,18 @@ use Illuminate\Http\Request;
 
 class VerificationController extends Controller
 {
-    public function verify(Request $request, $id, $hash){
-        $user = User::where('id', $id)->first();
+    public function  verify(Request $request, $id, $hash){
+        $user = User::where('id',$id)->first();
 
         if(!hash_equals((string)$hash, sha1($user->email))){
             return response()->json([
-                'message' => 'Invalid verification link'
+                'message'=>'Invalid verification link.'
             ]);
         }
 
         if($user->hasVerifiedEmail()){
             return response()->json([
-                'message' => 'Email is already verified'
+                'message'=>'Email is already verified.'
             ]);
         }
 

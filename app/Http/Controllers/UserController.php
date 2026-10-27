@@ -11,9 +11,9 @@ class UserController extends Controller
     public function createUser(Request $request){
         $request->validate([
             'name'=>'required|string',
-            'email'=>'required|email|unique:users,email',
+            'email'=>'required|email',
             'password'=>'required|min:3|confirmed',
-            'user_id'=>'required|integer|exists:users,id',
+            'role_id'=>'required|integer|exists:roles,id',
             'user_image'=>'nullable|image|mimes:jpg,png,jpeg|max:2048',         
         ]);
 
@@ -21,7 +21,7 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        $user->user_id = $request->user_id;
+        $user->role_id = $request->role_id;
         
         if($request->hasFile('user_image')){
             $filename = $request->file('user_image')->store('user-image','public');
@@ -36,6 +36,7 @@ class UserController extends Controller
             return response()->json([
                 'message'=>'User registered successfully',
                 'user'=>$user
+                 
             ], 200);
         }catch(\Exception $e){
             return response()->json([
@@ -75,9 +76,9 @@ class UserController extends Controller
     public function updateUser( $id, Request $request){
         $request->validate([
             'name'=>'required|string',
-            'email'=>'required|email|unique:users,email',
+            'email'=>'required|email',
             'password'=>'required|min:3|confirmed',
-            'user_id'=>'required|integer|exists:users,id',
+            'role_id'=>'required|integer|exists:roles,id',
             'user_image'=>'nullable|image|mimes:jpg,png,jpeg|max:2048',         
         ]);
 
@@ -85,7 +86,8 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
-        $user->user_id = $request->user_id;
+        $user->role_id = $request->role_id;
+
         
         if($request->hasFile('user_image')){
             $filename = $request->file('user_image')->store('user-image','public');
@@ -97,6 +99,7 @@ class UserController extends Controller
 
         try{
             $user->save();
+            // $user->load('role');
             return response()->json([
                 'message'=>'User updated successfully',
                 'user'=>$user
