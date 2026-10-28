@@ -61,4 +61,4 @@ class User extends Authenticatable
             'customer'=>$this->role?->name === 'CUSTOMER'
         ];
     }
-}
+} 

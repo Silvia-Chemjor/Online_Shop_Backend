@@ -74,8 +74,8 @@ class AuthController extends Controller
             'message'=>'Login successful!',
             'user'=>$user,
             'role' => $user->role,
-            'abilities'=>[], 
-            // '$user->abilities(),
+            'abilities'=>$user->abilities(),
+            
             'token'=>$token
         ], 201);}catch(\Exception $e){
             return response()->json([
